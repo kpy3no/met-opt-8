@@ -204,13 +204,14 @@ namespace mo_lab6_new
 
         void setFits() //Вычисление функции приспособленности
         {
-            double minFunc = func(s[0].x, s[0].y);
+            double minFunc = Double.MaxValue;
 
             for (int i = 0; i < count; i++)
             {
-                if(func(s[i].x, s[i].y) <= minFunc)
+                double currentMinFunc = func(s[i].x, s[i].y);
+                if (currentMinFunc <= minFunc)
                 {
-                    minFunc = func(s[i].x, s[i].y);
+                    minFunc = currentMinFunc;
                 }
             }
 
@@ -322,6 +323,8 @@ namespace mo_lab6_new
 
             //setFits();
             //drawResults();
+
+            double prevBest = sMax();
 
             while(k != 1000 && !found)
             {
@@ -439,6 +442,13 @@ namespace mo_lab6_new
 
                 setFits(); //Пересчитываем значения функции приспособленности
                 avgFit = (sMax() - sMin()) / 2.00;
+
+                if (Math.Abs(prevBest - sMax()) <= eps) {
+                    found = true;
+                } else
+                {
+                    prevBest = sMax();
+                }
 
                 /*
                 for (int i = 0; i < s.Count; i++)
